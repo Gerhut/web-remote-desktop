@@ -1,9 +1,7 @@
 void function () {
-  var PORT = 12345
-
   var canvas = document.getElementsByTagName('canvas')[0]
   var context = canvas.getContext('2d')
-  var socket = new WebSocket('ws://' + location.hostname + ':' + PORT)
+  var socket = new WebSocket('ws://' + location.host + '/ws')
 
   socket.onopen = function() {
     socket.onmessage = function (event) {
