@@ -1,0 +1,5 @@
+Pillow==2.4.0
+autopy==0.51
+backports.ssl-match-hostname==3.4.0.2
+tornado==3.2
+wsgiref==0.1.2
