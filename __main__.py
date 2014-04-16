@@ -1,23 +1,19 @@
-#!/usr/bin/python
+#! /usr/bin/env python
 
-from tornado import ioloop, web, websocket
+from subprocess import Popen
+from sys import argv
 
-class WebSocketHandler(websocket.WebSocketHandler):
-    def open(self):
-        self.write_message('100x100')
+try:
+    cmd = argv[1]
+except:
+    cmd = 'python'
 
-    def on_message(self, message):
-        print message
-
-
-application = web.Application([
-    ('/ws', WebSocketHandler),
-    ('/(.*)', web.StaticFileHandler, {
-        'path': 'web',
-        'default_filename': 'index.html'
-    })
-])
-
-if __name__ == "__main__":
-    application.listen(8888)
-    ioloop.IOLoop.instance().start()
+try:
+    page = Popen((cmd, 'page.py'))
+    screenshot = Popen((cmd, 'screenshot.py'))
+    control = Popen((cmd, 'control.py'))
+    page.wait()
+finally:
+    page.terminate()
+    screenshot.terminate()
+    control.terminate()

@@ -12,7 +12,7 @@ Dependency
 
 - Python 2.7
 - Tornado
-- Pillow
+- autopy
 
 Protocol
 --------
