@@ -2,10 +2,10 @@
 
 from base64 import b64encode, b64decode
 from zlib import decompress
-from platform import system
 
+from autopy.screen import get_size
+from autopy.bitmap import capture_screen
 from PIL import Image
-import mss
 from tornado import ioloop, web, websocket
 
 try:
@@ -17,24 +17,17 @@ __all__ = [
     'Handler'
 ]
 
-MSS = {
-    'Darwin': mss.MSSMac,
-    'Linux': mss.MSSLinux,
-    'Windows': mss.MSSWindows
-}[system()](False)
+size = get_size()
 
-monitor = None
+def get_data(quality):
+    data = capture_screen().to_string().split(',')[-1]
+    data = b64decode(data)
+    data = decompress(data)
+    data = Image.frombytes('RGB', size, data).convert('RGB', (
+      0, 0, 1, 0,
+      0, 1, 0, 0,
+      1, 0, 0, 0))
 
-for m in MSS.enum_display_monitors(-1):
-    monitor = m
-    break;
-
-size = (monitor['width'], monitor['height'])
-
-def get_data(quality=30):
-    data = MSS.get_pixels(monitor)
-    
-    data = Image.frombytes('RGB', size, data)
     sio = StringIO()
     data.save(sio, 'jpeg', quality=quality)
     data = sio.getvalue()
