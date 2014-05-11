@@ -7,9 +7,9 @@ Dependency
 ----------
 
 - Python 2.7
-- Tornado
-- autopy
-- Pillow
+- [Tornado]
+- [autopy](https://github.com/msanders/autopy)
+- [Pillow]
 
 Protocol
 --------
